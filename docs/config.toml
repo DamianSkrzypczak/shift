@@ -1,0 +1,16 @@
+baseURL = "https://DamianSkrzypczak.github.io/shift/"
+languageCode = "en-us"
+title = "Shift"
+
+theme = "hugo-theme-learn"
+
+pluralizelisttitles = "false"
+
+# For search functionality
+[outputs]
+home = [ "HTML", "RSS", "JSON"]
+
+[params]
+  author = "Damian Skrzypczak"
+  # Change default color scheme with a variant one. Can be "red", "blue", "green".
+  themeVariant = "mine"

@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Movie creation request",
+  "description": "Represents valid movie creation request structure.",
+  "type": "object",
+  "properties": {
+    "title": {
+      "title": "Movie name",
+      "description": "Name of movie to create",
+      "type": "string"
+    },
+    "genre": {
+      "title": "Movie genre",
+      "description": "Genre of movie to create",
+      "type": "string",
+      "enum": [
+        "Absurdist",
+        "Action",
+        "Adventure",
+        "Comedy",
+        "Crime",
+        "Drama",
+        "Fantasy",
+        "Historical",
+        "Historical fiction",
+        "Horror",
+        "Magical realism",
+        "Mystery",
+        "Paranoid fiction",
+        "Philosophical",
+        "Political",
+        "Romance",
+        "Saga",
+        "Satire",
+        "Science fiction",
+        "Social",
+        "Speculative",
+        "Thriller",
+        "Urban",
+        "Western"
+      ]
+    },
+    "release": {
+      "title": "Release",
+      "description": "Date of movie release, in YYYY-MM-DD format",
+      "type":"string",
+      "format": "date"
+    }
+  },
+  "required": ["title", "genre", "released"],
+  "additionalProperties": false
+}

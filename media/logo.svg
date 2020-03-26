@@ -1,70 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="50mm"
    height="70mm"
    viewBox="0 0 50 70"
    version="1.1"
-   id="svg8"
-   sodipodi:docname="logo3.svg"
-   inkscape:version="0.92.4 5da689c313, 2019-01-14"
-   inkscape:export-xdpi="355.60001"
-   inkscape:export-ydpi="355.60001"
+   id="svg8">
   <defs
      id="defs2">
     <marker
-       inkscape:stockid="ExperimentalArrow"
        orient="auto-start-reverse"
        refY="3"
        refX="5"
-       id="marker4158"
-       inkscape:isstock="true">
+       id="marker4158">
       <path
          id="path4156"
          d="M 10,3 0,6 V 0 Z"
-         style="fill:context-stroke;stroke:#000000;stroke-opacity:1"
-         inkscape:connector-curvature="0" />
+         style="fill:context-stroke;stroke:#000000;stroke-opacity:1" />
     </marker>
     <marker
-       inkscape:stockid="Arrow2Lend"
        orient="auto"
        refY="0"
        refX="0"
        id="Arrow2Lend"
-       style="overflow:visible"
-       inkscape:isstock="true">
+       style="overflow:visible">
       <path
          id="path861"
          style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
          d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
-         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
-         inkscape:connector-curvature="0" />
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
     </marker>
     <marker
-       inkscape:stockid="Arrow1Lend"
        orient="auto"
        refY="0"
        refX="0"
        id="Arrow1Lend"
-       style="overflow:visible"
-       inkscape:isstock="true">
+       style="overflow:visible">
       <path
          id="path843"
          d="M 0,0 5,-5 -12.5,0 5,5 Z"
          style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
-         transform="matrix(-0.8,0,0,-0.8,-10,0)"
-         inkscape:connector-curvature="0" />
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
     </marker>
     <meshgradient
-       inkscape:collect="always"
        id="meshgradient1277"
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(0.31556997,-1.2026498,1.177723,0.32224906,-510.22518,445.11056)"
@@ -94,7 +76,6 @@
       </meshrow>
     </meshgradient>
     <meshgradient
-       inkscape:collect="always"
        id="meshgradient1305"
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(-0.07549717,-0.30048945,-0.29515894,0.08051589,298.10243,322.40029)"
@@ -124,7 +105,6 @@
       </meshrow>
     </meshgradient>
     <meshgradient
-       inkscape:collect="always"
        id="meshgradient890"
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(-0.07549717,-0.30048945,-0.29515894,0.08051589,298.10243,322.40029)"
@@ -154,38 +134,6 @@
       </meshrow>
     </meshgradient>
   </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="2.0000001"
-     inkscape:cx="78.979848"
-     inkscape:cy="210.77684"
-     inkscape:document-units="mm"
-     inkscape:current-layer="text1268"
-     showgrid="false"
-     inkscape:snap-bbox="true"
-     inkscape:bbox-nodes="true"
-     inkscape:bbox-paths="true"
-     inkscape:snap-bbox-edge-midpoints="true"
-     inkscape:snap-bbox-midpoints="true"
-     inkscape:object-paths="true"
-     inkscape:object-nodes="true"
-     inkscape:snap-intersection-paths="true"
-     inkscape:snap-smooth-nodes="true"
-     inkscape:snap-midpoints="true"
-     inkscape:snap-object-midpoints="true"
-     inkscape:snap-center="true"
-     inkscape:window-width="1920"
-     inkscape:window-height="1011"
-     inkscape:window-x="1920"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     showguides="false"
-     inkscape:lockguides="true" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -194,13 +142,11 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-227)">
     <flowRoot
@@ -239,25 +185,19 @@
            id="path1056"
            transform="matrix(0.22789776,0,-0.00254066,0.22789776,125.75797,214.09185)"
            d="m 161.20508,11.626953 -0.002,0.002 -6,22.863282 -121.429682,71.583985 70.107422,124.00391 -5.998048,22.85742 0.002,0.004 8.253908,-31.45899 L 42.189453,108.38477 152.95117,43.083984 Z"
-           style="font-style:normal;font-weight:normal;font-size:21.06410217px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:url(#meshgradient1277);fill-opacity:1;stroke:none;stroke-width:1.00182021"
-           inkscape:connector-curvature="0" />
+           style="font-style:normal;font-weight:normal;font-size:21.06410217px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:url(#meshgradient1277);fill-opacity:1;stroke:none;stroke-width:1.00182021" />
         <path
-           inkscape:connector-curvature="0"
            id="path1038"
            d="m 133.52387,221.95176 0.49183,1.9585 25.07601,14.88056 -14.8608,25.77648 0.49226,1.95895 16.29281,-28.25888 z"
            style="font-style:normal;font-weight:normal;font-size:21.06410217px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.2283126" />
         <path
-           inkscape:connector-curvature="0"
            id="path1022"
            d="m 125.51193,236.16052 37.67897,-22.06836 -2.15019,7.86024 -27.85557,16.31412 15.66265,28.25985 -2.15004,7.85967 z"
-           style="font-style:normal;font-weight:normal;font-size:21.06410217px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.22831258"
-           sodipodi:nodetypes="ccccccc" />
+           style="font-style:normal;font-weight:normal;font-size:21.06410217px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.22831258" />
         <path
-           sodipodi:nodetypes="ccccccc"
            style="font-style:normal;font-weight:normal;font-size:21.06410217px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:url(#meshgradient890);fill-opacity:1;stroke:none;stroke-width:0.22831258"
            d="m 168.73615,236.16142 -22.03854,38.22437 -3.18995,-5.75562 17.50832,-30.3628 -27.49226,-16.31584 -1.97466,-7.8597 z"
-           id="path1000"
-           inkscape:connector-curvature="0" />
+           id="path1000" />
       </g>
     </g>
     <g
