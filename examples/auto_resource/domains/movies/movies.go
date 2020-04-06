@@ -66,10 +66,10 @@ func listMovies(params shift.QueryParameters) (interface{}, error) {
 	return movies, nil
 }
 
-func newCreateMovieHandler(api *autoapi.ResourceAPI) func(patcher autoapi.Patcher, params shift.QueryParameters) (interface{}, error) {
-	return func(patcher autoapi.Patcher, params shift.QueryParameters) (interface{}, error) {
+func newCreateMovieHandler(api *autoapi.ResourceAPI) func(deserializer autoapi.Deserializer, params shift.QueryParameters) (interface{}, error) {
+	return func(deserializer autoapi.Deserializer, params shift.QueryParameters) (interface{}, error) {
 		m := Movie{}
-		if err := patcher(&m); err != nil {
+		if err := deserializer(&m); err != nil {
 			return nil, err
 		}
 
@@ -89,28 +89,28 @@ func readMovie(id string, params shift.QueryParameters) (interface{}, error) {
 	return movies[index], nil
 }
 
-func updateMovie(patcher autoapi.Patcher, id string, params shift.QueryParameters) (interface{}, error) {
+func updateMovie(deserializer autoapi.Deserializer, id string, params shift.QueryParameters) (interface{}, error) {
 	index, err := parseMovieID(id)
 	if err != nil {
 		return nil, err
 	}
 
 	m := movies[index]
-	if err := patcher(&m); err != nil {
+	if err := deserializer(&m); err != nil {
 		return nil, err
 	}
 
 	return nil, nil
 }
 
-func replaceMovie(patcher autoapi.Patcher, id string, params shift.QueryParameters) (interface{}, error) {
+func replaceMovie(deserializer autoapi.Deserializer, id string, params shift.QueryParameters) (interface{}, error) {
 	index, err := parseMovieID(id)
 	if err != nil {
 		return nil, err
 	}
 
 	m := Movie{}
-	if err := patcher(&m); err != nil {
+	if err := deserializer(&m); err != nil {
 		return nil, err
 	}
 

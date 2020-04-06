@@ -23,15 +23,15 @@ type handlers struct {
 	internalErrorHandler   internalErrorHandler
 }
 
-type Patcher func(v interface{}) error
+type Deserializer func(v interface{}) error
 
-type PatcherFactory func(rc shift.RequestContext) Patcher
+type DeserializerFactory func(rc shift.RequestContext) Deserializer
 
 type ResourceAPI struct {
-	Domain         *shift.Domain
-	resourceURL    string
-	handlers       handlers
-	patcherFactory PatcherFactory
+	Domain              *shift.Domain
+	resourceURL         string
+	handlers            handlers
+	deserializerFactory DeserializerFactory
 }
 
 func NewResourceAPI(d *shift.Domain) *ResourceAPI {
@@ -44,7 +44,7 @@ func NewResourceAPI(d *shift.Domain) *ResourceAPI {
 			validationErrorHandler: newDefaultValidationErrorHandler(d),
 			internalErrorHandler:   newDefaultInternalErrorHandler(d),
 		},
-		patcherFactory: newDefaultPatcherFactory(d),
+		deserializerFactory: newDefaultDeserializerFactory(d),
 	}
 }
 
@@ -68,8 +68,8 @@ func (api *ResourceAPI) ValidationErrorHandler(handler validationErrorHandler) {
 func (api *ResourceAPI) InternalErrorHandler(handler internalErrorHandler) {
 	api.handlers.internalErrorHandler = handler
 }
-func (api *ResourceAPI) PatcherFactory(factory PatcherFactory) {
-	api.patcherFactory = factory
+func (api *ResourceAPI) DeserializerFactory(factory DeserializerFactory) {
+	api.deserializerFactory = factory
 }
 
 func (api *ResourceAPI) newJSONSchemaValidator(schema []byte) shift.Middleware {
@@ -126,12 +126,12 @@ func (api *ResourceAPI) List(
 }
 func (api *ResourceAPI) Create(
 	schema []byte,
-	dataReceiver func(patcher Patcher, params shift.QueryParameters) (interface{}, error),
+	dataReceiver func(deserializer Deserializer, params shift.QueryParameters) (interface{}, error),
 ) {
 	api.Domain.Router.
 		With(api.newJSONSchemaValidator(schema)).
 		Post("/", func(rc shift.RequestContext) {
-			v, err := dataReceiver(api.patcherFactory(rc), rc.Request.QueryParameters)
+			v, err := dataReceiver(api.deserializerFactory(rc), rc.Request.QueryParameters)
 			api.runSubHandlers(Create, rc, v, err)
 		})
 }
@@ -147,23 +147,23 @@ func (api *ResourceAPI) Read(
 
 func (api *ResourceAPI) Replace(
 	schema []byte,
-	dataReceiver func(patcher Patcher, id string, params shift.QueryParameters) (interface{}, error),
+	dataReceiver func(deserializer Deserializer, id string, params shift.QueryParameters) (interface{}, error),
 ) {
 	api.Domain.Router.
 		With(api.newJSONSchemaValidator(schema)).
 		Put(api.resourceURL, func(rc shift.RequestContext) {
-			v, err := dataReceiver(api.patcherFactory(rc), rc.Request.URLParam("resourceID"), rc.Request.QueryParameters)
+			v, err := dataReceiver(api.deserializerFactory(rc), rc.Request.URLParam("resourceID"), rc.Request.QueryParameters)
 			api.runSubHandlers(Replace, rc, v, err)
 		})
 }
 func (api *ResourceAPI) Update(
 	schema []byte,
-	dataReceiver func(patcher Patcher, id string, params shift.QueryParameters) (interface{}, error),
+	dataReceiver func(deserializer Deserializer, id string, params shift.QueryParameters) (interface{}, error),
 ) {
 	api.Domain.Router.
 		With(api.newJSONSchemaValidator(schema)).
 		Patch(api.resourceURL, func(rc shift.RequestContext) {
-			v, err := dataReceiver(api.patcherFactory(rc), rc.Request.URLParam("resourceID"), rc.Request.QueryParameters)
+			v, err := dataReceiver(api.deserializerFactory(rc), rc.Request.URLParam("resourceID"), rc.Request.QueryParameters)
 			api.runSubHandlers(Update, rc, v, err)
 		})
 }
@@ -283,8 +283,8 @@ func newDefaultInternalErrorHandler(d *shift.Domain) internalErrorHandler {
 		logrus.WithField("LogID", LogUUID).Error(err)
 	}
 }
-func newDefaultPatcherFactory(d *shift.Domain) PatcherFactory {
-	return func(rc shift.RequestContext) Patcher {
+func newDefaultDeserializerFactory(d *shift.Domain) DeserializerFactory {
+	return func(rc shift.RequestContext) Deserializer {
 		return func(v interface{}) error {
 			body, err := rc.Request.BodyCopy()
 			if err != nil {
