@@ -22,11 +22,12 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 Pull requests are the best way to propose changes to the codebase (we use [Github Flow](https://guides.github.com/introduction/flow/index.html)). We actively welcome your pull requests:
 
 1. Fork the repo and create your branch from `master`.
-2. If you've added code, make sure it's covered by tests.
-3. Update the documentation.
-4. Ensure the test suite passes.
-5. Make sure your code lints.
-6. Issue that pull request!
+2. When writing commit messages, follow [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
+3. If you've added code, make sure it's covered by tests.
+4. Update the documentation.
+5. Ensure the test suite passes.
+6. Make sure your code lints.
+7. Issue that pull request!
 
 ### Attribution
 
