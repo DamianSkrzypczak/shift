@@ -1,5 +1,8 @@
 # TODO (probably in far future) featueres:
 
+- Testing:
+  - Test client with App interface
+
 - Inter-domain communication mechanism (to keep domains code-spearated)
 
   - with abstraction on-top of memory/http/ipc/rpc communication

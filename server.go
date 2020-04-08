@@ -3,16 +3,16 @@ package shift
 import "net/http"
 
 type Server interface {
-	ListenAndServe(addr string, router *Router) error
-	ListenAndServeTLS(addr, certFile, keyFile string, router *Router) error
+	Initialize(addr string, router *Router)
+	ListenAndServe() error
+	ListenAndServeTLS(certFile, keyFile string) error
 }
 
-type defaultServer struct{}
-
-func (s *defaultServer) ListenAndServe(addr string, router *Router) error {
-	return http.ListenAndServe(addr, router)
+type defaultServer struct {
+	http.Server
 }
 
-func (s *defaultServer) ListenAndServeTLS(addr, certFile, keyFile string, router *Router) error {
-	return http.ListenAndServeTLS(addr, certFile, keyFile, router)
+func (s *defaultServer) Initialize(addr string, router *Router) {
+	s.Addr = addr
+	s.Handler = router
 }

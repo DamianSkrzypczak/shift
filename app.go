@@ -1,8 +1,6 @@
 package shift
 
 import (
-	"net/http"
-
 	"github.com/sirupsen/logrus"
 )
 
@@ -23,7 +21,7 @@ func New(name string, config *AppConfig) *App {
 	rootDomain := newDomain("/", nil)
 	config.Router.apply(rootDomain.Router)
 
-	app := App{
+	return &App{
 		Name:       name,
 		Server:     &defaultServer{},
 		Logger:     logrus.New(),
@@ -31,8 +29,6 @@ func New(name string, config *AppConfig) *App {
 		Router:     rootDomain.Router,
 		Config:     config,
 	}
-
-	return &app
 }
 
 func (app *App) Domain(path string, constructor func(d *Domain)) {
@@ -42,10 +38,12 @@ func (app *App) Domain(path string, constructor func(d *Domain)) {
 func (app *App) Run(addr string) error {
 	app.Logger.SetLevel(logrus.DebugLevel)
 	app.Logger.WithField("Address", addr).Infof("Serving shift app \"%s\"", app.Name)
+	app.Server.Initialize(addr, app.Router)
 
-	return http.ListenAndServe(addr, app.Router)
+	return app.Server.ListenAndServe()
 }
 
 func (app *App) RunTLS(addr, certFile, keyFile string) error {
-	return http.ListenAndServeTLS(addr, certFile, keyFile, app.Router)
+	app.Server.Initialize(addr, app.Router)
+	return app.Server.ListenAndServeTLS(certFile, keyFile)
 }
