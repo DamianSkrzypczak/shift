@@ -18,12 +18,14 @@ func (resp *Response) ToHTTP() http.ResponseWriter { return resp.ResponseWriter 
 func (resp *Response) SetStatusCode(code int) { resp.WriteHeader(code) }
 
 func (resp *Response) WithJSON(v interface{}, statusCode int) error {
-	resp.Header().Set("Content-Type", "application/json")
-	resp.SetStatusCode(statusCode)
-
-	if err := resp.SetBodyJSON(v); err != nil {
+	payload, err := json.Marshal(v)
+	if err != nil {
 		return err
 	}
+
+	resp.Header().Set("Content-Type", "application/json")
+	resp.SetStatusCode(statusCode)
+	resp.SetBodyBytes(payload)
 
 	return nil
 }
