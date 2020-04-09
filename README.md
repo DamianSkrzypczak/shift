@@ -1,4 +1,4 @@
-<a href="#"><img align="right" height="159px" src="./media/logo.png"></a>
+<img align="right" height="159px" src="./media/logo.png">
 
 <h1>Shift</h1>
 <p>Domain driven API framework written in Golang</p>
