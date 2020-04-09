@@ -21,6 +21,9 @@ precommit: ## Run all necessary pre-commit actions and checks.
 	@echo "| - run go mod verify"
 	go mod verify
 
+	@echo "| - test examples"
+	@make test-examples
+
 API_DOCS_URL=http://localhost:6060/pkg/github.com/DamianSkrzypczak/shift/
 serve-godoc: ## Serve local, API documentation. 
 	@echo "---============ Serving (godoc) API documentation  ============---"
@@ -94,3 +97,12 @@ _install_project_doc_theme:
 	else \
 		echo "theme directory \"${HUGO_THEME_DIR}\" present, step omitted"; \
 	fi
+
+test-examples: examples/* ## Iterate over examples and run their `make test`
+	@echo "---============ Testing examples ============---"
+	@for file in $^ ; do \
+		echo ""; \
+		echo "| - testing $${file}"; \
+		(cd $${file} && go test ./...) || exit $$?; \
+	done
+

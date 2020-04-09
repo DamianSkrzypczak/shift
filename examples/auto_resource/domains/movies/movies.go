@@ -16,22 +16,25 @@ var movies = []Movie{}
 type Movie struct {
 	Title    string    `json:"title"`
 	Genre    string    `json:"genre"`
-	Released *JSONTime `json:"release"`
+	Released *JSONTime `json:"released"`
 }
 
 type JSONTime time.Time
 
-func (t JSONTime) MarshalJSON() ([]byte, error) {
-	stamp := fmt.Sprintf("\"%s\"", time.Time(t).Format("2006-01-02"))
-	return []byte(stamp), nil
+func (t *JSONTime) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf("\"%s\"", time.Time(*t).Format("2006-01-02"))), nil
 }
 
 func (t *JSONTime) UnmarshalJSON(data []byte) error {
-	date, err := time.Parse("2006-01-02", string(data))
+	date, err := time.Parse("\"2006-01-02\"", string(data))
+
+	if err != nil {
+		return err
+	}
 
 	*t = JSONTime(date)
 
-	return err
+	return nil
 }
 
 type MovieCreationResponse struct {

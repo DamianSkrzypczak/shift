@@ -93,21 +93,13 @@ func (api *ResourceAPI) newJSONSchemaValidator(schema []byte) shift.Middleware {
 				gojsonschema.NewBytesLoader(body),
 			)
 
-			if err != nil {
-				if err = api.handlers.validationErrorHandler(err, nil, rc); err != nil {
+			if err != nil || !validationResult.Valid() {
+				if err = api.handlers.validationErrorHandler(err, validationResult, rc); err != nil {
 					api.handlers.internalErrorHandler(err, rc)
 					return
 				}
 
 				return
-			}
-
-			if !validationResult.Valid() {
-				err := api.handlers.validationErrorHandler(nil, validationResult, rc)
-				if err != nil {
-					api.handlers.internalErrorHandler(err, rc)
-					return
-				}
 			}
 
 			next(rc)

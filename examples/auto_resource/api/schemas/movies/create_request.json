@@ -40,7 +40,7 @@
         "Western"
       ]
     },
-    "release": {
+    "released": {
       "title": "Release",
       "description": "Date of movie release, in YYYY-MM-DD format",
       "type":"string",
