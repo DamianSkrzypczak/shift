@@ -1,7 +1,15 @@
+![status](https://img.shields.io/badge/status-alpha-red.svg)
+[![actions atatus](https://github.com/DamianSkrzypczak/shift/workflows/Pipeline/badge.svg)](https://github.com/DamianSkrzypczak/shift/actions)
+[![go report](https://goreportcard.com/badge/github.com/DamianSkrzypczak/shift)](https://goreportcard.com/report/github.com/DamianSkrzypczak/shift)
+[![godoc](https://godoc.org/github.com/DamianSkrzypczak/shift?status.svg)](http://godoc.org/github.com/DamianSkrzypczak/shift)
+[![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c)](https://pkg.go.dev/github.com/DamianSkrzypczak/shift)
+[![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/DamianSkrzypczak/shift/blob/master/LICENSE)
+
 <img align="right" height="159px" src="./media/logo.png">
 
 <h1>Shift</h1>
 <p>Domain driven API framework written in Golang</p>
+
 
 > :warning: **Solution currently unusable and in active development.**
 

@@ -1,5 +1,11 @@
-name: Test
-on: [push, pull_request]
+name: Pipeline
+on: 
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 env:
   GO111MODULE: "on"
 jobs:
