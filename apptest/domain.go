@@ -3,25 +3,19 @@ package apptest
 import (
 	"net/http"
 	"net/http/httptest"
-	"testing"
 
 	"github.com/DamianSkrzypczak/shift"
-	"github.com/gavv/httpexpect"
 )
 
 type DomainTest struct {
 	*shift.App
-	*httpexpect.Expect
+	URL string
 }
 
-func (at *DomainTest) Run() {}
+func NewDomainTest(appName string, constructor func(d *shift.Domain)) *DomainTest {
+	app := shift.New(appName, nil)
+	app.Domain("/", constructor)
 
-func (at *DomainTest) Domain(constructor func(d *shift.Domain)) {
-	at.App.Domain("/", constructor)
-}
-
-func NewDomainTest(t *testing.T) *DomainTest {
-	app := shift.New("TestApp", nil)
 	server := &TestServer{}
 	app.Server = server
 
@@ -30,8 +24,8 @@ func NewDomainTest(t *testing.T) *DomainTest {
 	}
 
 	return &DomainTest{
-		App:    app,
-		Expect: httpexpect.New(t, server.URL),
+		App: app,
+		URL: server.URL,
 	}
 }
 

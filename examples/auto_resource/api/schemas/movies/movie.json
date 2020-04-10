@@ -1,0 +1,49 @@
+{
+  "type": "object",
+  "properties": {
+    "title": {
+      "title": "Movie name",
+      "description": "Name of movie to create",
+      "type": "string"
+    },
+    "genre": {
+      "title": "Movie genre",
+      "description": "Genre of movie to create",
+      "type": "string",
+      "enum": [
+        "Absurdist",
+        "Action",
+        "Adventure",
+        "Comedy",
+        "Crime",
+        "Drama",
+        "Fantasy",
+        "Historical",
+        "Historical fiction",
+        "Horror",
+        "Magical realism",
+        "Mystery",
+        "Paranoid fiction",
+        "Philosophical",
+        "Political",
+        "Romance",
+        "Saga",
+        "Satire",
+        "Science fiction",
+        "Social",
+        "Speculative",
+        "Thriller",
+        "Urban",
+        "Western"
+      ]
+    },
+    "released": {
+      "title": "Release",
+      "description": "Date of movie release, in YYYY-MM-DD format",
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": ["title", "genre", "released"],
+  "additionalProperties": false
+}

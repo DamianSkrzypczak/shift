@@ -103,6 +103,6 @@ test-examples: examples/* ## Iterate over examples and run their `make test`
 	@for file in $^ ; do \
 		echo ""; \
 		echo "| - testing $${file}"; \
-		(cd $${file} && go test ./...) || exit $$?; \
+		(cd $${file} && go test ./... -cover) || exit $$?; \
 	done
 

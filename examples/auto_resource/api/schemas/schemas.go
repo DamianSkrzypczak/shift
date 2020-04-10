@@ -2,14 +2,15 @@
 package schemas
 
 import (
-	"io/ioutil"
+	"runtime"
 
 	"github.com/rakyll/statik/fs"
+	"github.com/xeipuuv/gojsonschema"
 
 	"app/api/schemas/movies"
 )
 
-func MustLoadMovieSchema(name string) []byte {
+func MustLoadMovieSchema(name string) gojsonschema.JSONLoader {
 	schema, err := loadSchema(name, movies.Movies)
 	if err != nil {
 		panic(err)
@@ -18,24 +19,18 @@ func MustLoadMovieSchema(name string) []byte {
 	return schema
 }
 
-func loadSchema(name, namespace string) ([]byte, error) {
+func loadSchema(name, namespace string) (gojsonschema.JSONLoader, error) {
 	statikFS, err := fs.NewWithNamespace(namespace)
 	if err != nil {
 		return nil, err
 	}
 
-	r, err := statikFS.Open(name)
-	if err != nil {
-		return nil, err
+	var path string
+	if runtime.GOOS == "windows" {
+		path = "file://d:/" + name
+	} else {
+		path = "file:///" + name
 	}
 
-	defer r.Close()
-
-	contents, err := ioutil.ReadAll(r)
-
-	if err != nil {
-		return contents, err
-	}
-
-	return contents, nil
+	return gojsonschema.NewReferenceLoaderFileSystem(path, statikFS), nil
 }

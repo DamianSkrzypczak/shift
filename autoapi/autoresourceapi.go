@@ -11,8 +11,8 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
-type successHandler func(operation, shift.RequestContext, interface{}) error
-type businessErrorHandler func(error, operation, shift.RequestContext, interface{}) error
+type successHandler func(Operation, shift.RequestContext, interface{}) error
+type businessErrorHandler func(error, Operation, shift.RequestContext, interface{}) error
 type validationErrorHandler func(error, *gojsonschema.Result, shift.RequestContext) error
 type internalErrorHandler func(error, shift.RequestContext)
 
@@ -72,14 +72,8 @@ func (api *ResourceAPI) DeserializerFactory(factory DeserializerFactory) {
 	api.deserializerFactory = factory
 }
 
-func (api *ResourceAPI) newJSONSchemaValidator(schema []byte) shift.Middleware {
+func (api *ResourceAPI) newJSONSchemaValidator(loader gojsonschema.JSONLoader) shift.Middleware {
 	return func(next shift.Handler) shift.Handler {
-		if schema == nil {
-			return func(rc shift.RequestContext) {
-				next(rc)
-			}
-		}
-
 		return func(rc shift.RequestContext) {
 			body, err := rc.Request.BodyCopy()
 
@@ -89,7 +83,7 @@ func (api *ResourceAPI) newJSONSchemaValidator(schema []byte) shift.Middleware {
 			}
 
 			validationResult, err := gojsonschema.Validate(
-				gojsonschema.NewBytesLoader(schema),
+				loader,
 				gojsonschema.NewBytesLoader(body),
 			)
 
@@ -117,11 +111,11 @@ func (api *ResourceAPI) List(
 		})
 }
 func (api *ResourceAPI) Create(
-	schema []byte,
+	loader gojsonschema.JSONLoader,
 	dataReceiver func(deserializer Deserializer, params shift.QueryParameters) (interface{}, error),
 ) {
 	api.Domain.Router.
-		With(api.newJSONSchemaValidator(schema)).
+		With(api.newJSONSchemaValidator(loader)).
 		Post("/", func(rc shift.RequestContext) {
 			v, err := dataReceiver(api.deserializerFactory(rc), rc.Request.QueryParameters)
 			api.runSubHandlers(Create, rc, v, err)
@@ -138,22 +132,22 @@ func (api *ResourceAPI) Read(
 }
 
 func (api *ResourceAPI) Replace(
-	schema []byte,
+	loader gojsonschema.JSONLoader,
 	dataReceiver func(deserializer Deserializer, id string, params shift.QueryParameters) (interface{}, error),
 ) {
 	api.Domain.Router.
-		With(api.newJSONSchemaValidator(schema)).
+		With(api.newJSONSchemaValidator(loader)).
 		Put(api.resourceURL, func(rc shift.RequestContext) {
 			v, err := dataReceiver(api.deserializerFactory(rc), rc.Request.URLParam("resourceID"), rc.Request.QueryParameters)
 			api.runSubHandlers(Replace, rc, v, err)
 		})
 }
 func (api *ResourceAPI) Update(
-	schema []byte,
+	loader gojsonschema.JSONLoader,
 	dataReceiver func(deserializer Deserializer, id string, params shift.QueryParameters) (interface{}, error),
 ) {
 	api.Domain.Router.
-		With(api.newJSONSchemaValidator(schema)).
+		With(api.newJSONSchemaValidator(loader)).
 		Patch(api.resourceURL, func(rc shift.RequestContext) {
 			v, err := dataReceiver(api.deserializerFactory(rc), rc.Request.URLParam("resourceID"), rc.Request.QueryParameters)
 			api.runSubHandlers(Update, rc, v, err)
@@ -169,7 +163,7 @@ func (api *ResourceAPI) Delete(
 		})
 }
 
-func (api *ResourceAPI) runSubHandlers(op operation, rc shift.RequestContext, v interface{}, err error) {
+func (api *ResourceAPI) runSubHandlers(op Operation, rc shift.RequestContext, v interface{}, err error) {
 	if err != nil {
 		if err = api.handlers.businessErrorHandler(err, op, rc, v); err != nil {
 			api.handlers.internalErrorHandler(err, rc)
@@ -184,19 +178,19 @@ func (api *ResourceAPI) runSubHandlers(op operation, rc shift.RequestContext, v 
 	}
 }
 
-type operation string
+type Operation string
 
 const (
-	List    operation = "list"
-	Create  operation = "create"
-	Read    operation = "read"
-	Replace operation = "replace"
-	Update  operation = "update"
-	Delete  operation = "delete"
+	List    Operation = "list"
+	Create  Operation = "create"
+	Read    Operation = "read"
+	Replace Operation = "replace"
+	Update  Operation = "update"
+	Delete  Operation = "delete"
 )
 
 func newDefaultSuccessHandler(d *shift.Domain) successHandler {
-	return func(op operation, rc shift.RequestContext, v interface{}) error {
+	return func(op Operation, rc shift.RequestContext, v interface{}) error {
 		switch op {
 		case List:
 			return rc.Response.WithJSON(v, http.StatusOK)
@@ -216,7 +210,7 @@ func newDefaultSuccessHandler(d *shift.Domain) successHandler {
 	}
 }
 func newDefaultBusinessErrorHandler(d *shift.Domain) businessErrorHandler {
-	return func(err error, op operation, rc shift.RequestContext, v interface{}) error {
+	return func(err error, op Operation, rc shift.RequestContext, v interface{}) error {
 		return err // promote error to InternalErrorHandler.
 	}
 }
@@ -224,6 +218,7 @@ func newDefaultValidationErrorHandler(d *shift.Domain) validationErrorHandler {
 	type ValidationError struct {
 		Context     string `json:"context"`
 		Description string `json:"description"`
+		LogID       string `json:"LogID,omitempty"`
 	}
 
 	type ValidationErrors struct {
@@ -234,13 +229,17 @@ func newDefaultValidationErrorHandler(d *shift.Domain) validationErrorHandler {
 		payload := ValidationErrors{}
 
 		if err != nil {
+			LogID := ksuid.New().String()
 			payload.Errors = append(
 				payload.Errors,
 				ValidationError{
 					"",
 					"Abnormal request body.",
+					LogID,
 				},
 			)
+
+			logrus.WithField("LogID", LogID).Error(err)
 		} else {
 			for _, desc := range result.Errors() {
 				payload.Errors = append(
@@ -248,6 +247,7 @@ func newDefaultValidationErrorHandler(d *shift.Domain) validationErrorHandler {
 					ValidationError{
 						desc.Context().String(),
 						desc.Description(),
+						"",
 					},
 				)
 			}
@@ -266,13 +266,13 @@ func newDefaultInternalErrorHandler(d *shift.Domain) internalErrorHandler {
 	}
 
 	return func(err error, rc shift.RequestContext) {
-		LogUUID := ksuid.New().String()
+		LogID := ksuid.New().String()
 
-		if responseErr := rc.Response.WithJSON(InternalErrorResponse{LogUUID}, http.StatusInternalServerError); responseErr != nil {
+		if responseErr := rc.Response.WithJSON(InternalErrorResponse{LogID}, http.StatusInternalServerError); responseErr != nil {
 			panic(responseErr)
 		}
 
-		logrus.WithField("LogID", LogUUID).Error(err)
+		logrus.WithField("LogID", LogID).Error(err)
 	}
 }
 func newDefaultDeserializerFactory(d *shift.Domain) DeserializerFactory {
