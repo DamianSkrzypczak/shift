@@ -1,4 +1,4 @@
-package autoapi
+package jsonautoapi
 
 import (
 	"encoding/json"

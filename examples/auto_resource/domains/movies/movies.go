@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/DamianSkrzypczak/shift"
-	"github.com/DamianSkrzypczak/shift/autoapi"
+	"github.com/DamianSkrzypczak/shift/jsonautoapi"
 
 	"app/api/schemas"
 )
@@ -57,7 +57,7 @@ func parseMovieID(id string) (int, error) {
 }
 
 func Initialize(d *shift.Domain) {
-	api := autoapi.NewResourceAPI(d)
+	api := jsonautoapi.NewResourceAPI(d)
 	api.List(listMovies)
 	api.Create(schemas.MustLoadMovieSchema("create_request.json"), newCreateMovieHandler(api))
 	api.Read(readMovie)
@@ -65,10 +65,10 @@ func Initialize(d *shift.Domain) {
 	api.Replace(schemas.MustLoadMovieSchema("replace_request.json"), replaceMovie)
 	api.Delete(removeMovie)
 
-	api.BusinessErrorHandler(func(err error, op autoapi.Operation, rc shift.RequestContext, v interface{}) error {
+	api.BusinessErrorHandler(func(err error, op jsonautoapi.Operation, rc shift.RequestContext, v interface{}) error {
 		if err != nil {
 			switch op {
-			case autoapi.Read, autoapi.Delete, autoapi.Update, autoapi.Replace:
+			case jsonautoapi.Read, jsonautoapi.Delete, jsonautoapi.Update, jsonautoapi.Replace:
 				rc.Response.SetStatusCode(http.StatusNotFound)
 				return nil
 			}
@@ -82,9 +82,9 @@ func listMovies(params shift.QueryParameters) (interface{}, error) {
 }
 
 func newCreateMovieHandler(
-	api *autoapi.ResourceAPI,
-) func(deserializer autoapi.Deserializer, params shift.QueryParameters) (interface{}, error) {
-	return func(deserializer autoapi.Deserializer, params shift.QueryParameters) (interface{}, error) {
+	api *jsonautoapi.ResourceAPI,
+) func(deserializer jsonautoapi.Deserializer, params shift.QueryParameters) (interface{}, error) {
+	return func(deserializer jsonautoapi.Deserializer, params shift.QueryParameters) (interface{}, error) {
 		m := Movie{}
 		if err := deserializer(&m); err != nil {
 			return nil, err
@@ -106,7 +106,7 @@ func readMovie(id string, params shift.QueryParameters) (interface{}, error) {
 	return movies[index], nil
 }
 
-func updateMovie(deserializer autoapi.Deserializer, id string, params shift.QueryParameters) (interface{}, error) {
+func updateMovie(deserializer jsonautoapi.Deserializer, id string, params shift.QueryParameters) (interface{}, error) {
 	index, err := parseMovieID(id)
 	if err != nil {
 		return nil, err
@@ -120,7 +120,7 @@ func updateMovie(deserializer autoapi.Deserializer, id string, params shift.Quer
 	return nil, nil
 }
 
-func replaceMovie(deserializer autoapi.Deserializer, id string, params shift.QueryParameters) (interface{}, error) {
+func replaceMovie(deserializer jsonautoapi.Deserializer, id string, params shift.QueryParameters) (interface{}, error) {
 	index, err := parseMovieID(id)
 	if err != nil {
 		return nil, err
