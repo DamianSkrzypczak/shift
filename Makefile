@@ -5,7 +5,7 @@ help: ## Print this message and exit.
 
 precommit: ## Run all necessary pre-commit actions and checks.
 	@echo "---============ Running pre-commit check ============---"
-	
+
 	@echo "| - run goimports (overwrite mode)"
 	goimports -e -w .
 
@@ -24,6 +24,7 @@ precommit: ## Run all necessary pre-commit actions and checks.
 API_DOCS_URL=http://localhost:6060/pkg/github.com/DamianSkrzypczak/shift/
 serve-godoc: ## Serve local, API documentation. 
 	@echo "---============ Serving (godoc) API documentation  ============---"
+	
 	@echo "| - API documentation should be available under ${API_DOCS_URL}"	
 	@echo "| - use ctrl + c to quit"	
 	@godoc -http=:6060 >/dev/null
@@ -35,6 +36,7 @@ _open_api_docs:
 PROJECT_DOCS_URL=http://localhost:1313/shift/
 serve-hugo: ## Serve local, project documentation. 
 	@echo "---============ Serving (hugo) Project documentation ============---"
+
 	@echo "| - project documentation should be available under ${PROJECT_DOCS_URL}"	
 	@echo "| - use ctrl + c to quit"
 	./bin/hugo serve -s docs
@@ -43,10 +45,14 @@ _open_proj_docs:
 	@xdg-open ${PROJECT_DOCS_URL} >/dev/null
 
 setup-all: setup-dev setup-doc ## Setup whole development & documentation environment.
+	@go mod tidy
 
 setup-dev: ## Setup development environment.  
 	@echo "---============ Installing development dependencies ============---"
-	
+
+	@echo "| - installing code dependencies"
+	go get -v -t -d ./...
+
 	@echo "| - installing goimports"
 	go get golang.org/x/tools/cmd/goimports 
 	
@@ -56,15 +62,20 @@ setup-dev: ## Setup development environment.
 	@go mod tidy
 
 setup-doc: _install_api_doc_tools _install_project_doc_tools _install_project_doc_theme ## Setup API & project documentation environment.
+	@go mod tidy
 
 _install_api_doc_tools:
 	@echo "---============ Installing API documentation dependencies ============---"
+
 	@echo "| - installing godoc (API documentation)"
 	go get golang.org/x/tools/cmd/godoc
+	
+	@go mod tidy
 
 
 _install_project_doc_tools:
 	@echo "---============ Installing Project documentation dependencies ============---"
+
 	@echo "| - installing hugo (Project documentation)"
 	curl -Ls https://github.com/gohugoio/hugo/releases/latest/ \
 		| grep "hugo_.*_Linux-64bit.tar.gz" \
@@ -73,7 +84,13 @@ _install_project_doc_tools:
 
 	tar -C ./bin/ -zxvf /tmp/hugo.tar.gz hugo > /dev/null || rm /tmp/hugo.tar.gz
 
+HUGO_THEME_DIR=./docs/themes/hugo-theme-learn
 _install_project_doc_theme:
 	@echo "---============ Installing project documentation theme  ============---"
+
 	@echo "| - installing godoc (API documentation)"
-	git clone https://github.com/matcornic/hugo-theme-learn.git ./docs/themes/hugo-theme-learn
+	@if [[ ! -d "${HUGO_THEME_DIR}" ]]; then \
+			git clone https://github.com/matcornic/hugo-theme-learn.git ./docs/themes/hugo-theme-learn; \
+	else \
+		echo "theme directory \"${HUGO_THEME_DIR}\" present, step omitted"; \
+	fi
