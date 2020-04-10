@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/DamianSkrzypczak/shift.svg?branch=master)](https://travis-ci.org/DamianSkrzypczak/shift)
+
 <img align="right" height="159px" src="./media/logo.png">
 
 <h1>Shift</h1>

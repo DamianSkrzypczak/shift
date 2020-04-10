@@ -1,0 +1,9 @@
+dist: bionic
+language: go
+env: GO111MODULE=on
+go:
+- 1.14.x
+before_script:
+  make setup-dev
+
+script: make precommit
