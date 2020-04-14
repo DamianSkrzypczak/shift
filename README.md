@@ -26,8 +26,8 @@ based on microservices. See [project workflow graph](./media/workflow.png).
 Ultimately, the framework is intended to provide tools
 for inter-domain communication which will allow
 automatic switching from in-memory communication
-towards network-based communication b
-etween services located on separate instances.
+towards network-based communication between services
+located on separate instances.
 
 ## What's next
 
