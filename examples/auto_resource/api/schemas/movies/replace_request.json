@@ -1,1 +1,7 @@
-
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Movie creation request",
+  "description": "Represents valid movie creation request structure.",
+  "type": "object",
+  "$ref": "/movie.json"
+}
