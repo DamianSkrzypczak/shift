@@ -1,1 +1,1 @@
-# Example: "autoapi.ResourceAPI usage"
+# Example: "jsonautoapi.ResourceAPI usage"
