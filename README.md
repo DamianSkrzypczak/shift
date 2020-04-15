@@ -6,7 +6,7 @@
 [![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c)](https://pkg.go.dev/github.com/DamianSkrzypczak/shift)
 [![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/DamianSkrzypczak/shift/blob/master/LICENSE)
 
-<img align="right" height="159px" src="./media/logo.png">
+<img align="right" height="159px" src="https://raw.githubusercontent.com/DamianSkrzypczak/shift/master/media/logo.png">
 
 <h1>Shift</h1>
 <p>Domain driven API framework written in Golang</p>
