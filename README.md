@@ -1,4 +1,5 @@
 ![status](https://img.shields.io/badge/status-alpha-red.svg)
+[![documentation](https://img.shields.io/badge/documentation-reference-%234DB6AC)](https://damianskrzypczak.github.io/shift)
 [![actions atatus](https://github.com/DamianSkrzypczak/shift/workflows/Pipeline/badge.svg)](https://github.com/DamianSkrzypczak/shift/actions)
 [![go report](https://goreportcard.com/badge/github.com/DamianSkrzypczak/shift)](https://goreportcard.com/report/github.com/DamianSkrzypczak/shift)
 [![godoc](https://godoc.org/github.com/DamianSkrzypczak/shift?status.svg)](http://godoc.org/github.com/DamianSkrzypczak/shift)

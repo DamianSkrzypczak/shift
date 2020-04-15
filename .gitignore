@@ -19,6 +19,6 @@ bin/
 .vscode/
 
 # Documentation
-docs/themes/*
-docs/public
-docs/resources
+docs/source/themes/*
+docs/source/public
+docs/source/resources
