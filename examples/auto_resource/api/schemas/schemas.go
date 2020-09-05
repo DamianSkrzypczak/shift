@@ -1,4 +1,4 @@
-//go:generate statik -src=movies -p=movies -dest=. -include=*.json --ns movies -f
+//go:generate go run github.com/rakyll/statik -src=movies -p=movies -dest=. -include=*.json --ns movies -f
 package schemas
 
 import (
