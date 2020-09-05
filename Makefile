@@ -17,34 +17,34 @@ precommit: ## Run all necessary pre-commit actions and checks.
 
 	@echo "| - run go mod tidy"
 	go mod tidy -v
-	
+
 	@echo "| - run go mod verify"
 	go mod verify
 
 	@echo "| - test examples"
-	@make test-examples
+	@go test ./...
 
 API_DOCS_URL=http://localhost:6060/pkg/github.com/DamianSkrzypczak/shift/
-serve-godoc: ## Serve local, API documentation. 
+serve-godoc: ## Serve local, API documentation.
 	@echo "---============ Serving (godoc) API documentation  ============---"
-	
-	@echo "| - API documentation should be available under ${API_DOCS_URL}"	
-	@echo "| - use ctrl + c to quit"	
+
+	@echo "| - API documentation should be available under ${API_DOCS_URL}"
+	@echo "| - use ctrl + c to quit"
 	@godoc -http=:6060 >/dev/null
-serve-godoc-open: _open_api_docs serve-godoc ## "serve-godoc" with auto browser open. 
-_open_api_docs: 
+serve-godoc-open: _open_api_docs serve-godoc ## "serve-godoc" with auto browser open.
+_open_api_docs:
 	@xdg-open ${API_DOCS_URL} >/dev/null
 
 
 PROJECT_DOCS_URL=http://localhost:1313/shift/
-serve-hugo: ## Serve local, project documentation. 
+serve-hugo: ## Serve local, project documentation.
 	@echo "---============ Serving (hugo) Project documentation ============---"
 
-	@echo "| - project documentation should be available under ${PROJECT_DOCS_URL}"	
+	@echo "| - project documentation should be available under ${PROJECT_DOCS_URL}"
 	@echo "| - use ctrl + c to quit"
 	./bin/hugo serve -s docs/source
-serve-hugo-open: _open_proj_docs serve-hugo ## "serve-hugo" with auto browser open. 
-_open_proj_docs: 
+serve-hugo-open: _open_proj_docs serve-hugo ## "serve-hugo" with auto browser open.
+_open_proj_docs:
 	@xdg-open ${PROJECT_DOCS_URL} >/dev/null
 
 build-project-docs: ## Build project documentation (github pages)
@@ -55,15 +55,15 @@ build-project-docs: ## Build project documentation (github pages)
 setup-all: setup-dev setup-doc ## Setup whole development & documentation environment.
 	@go mod tidy
 
-setup-dev: ## Setup development environment.  
+setup-dev: ## Setup development environment.
 	@echo "---============ Installing development dependencies ============---"
 
 	@echo "| - installing code dependencies"
 	go get -v -t -d ./...
 
 	@echo "| - installing goimports"
-	go get golang.org/x/tools/cmd/goimports 
-	
+	go get golang.org/x/tools/cmd/goimports
+
 	@echo "| - installing golangci-lint (into ./bin)"
 	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh
 
@@ -77,7 +77,7 @@ _install_api_doc_tools:
 
 	@echo "| - installing godoc (API documentation)"
 	go get golang.org/x/tools/cmd/godoc
-	
+
 	@go mod tidy
 
 

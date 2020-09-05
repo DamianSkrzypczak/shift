@@ -1,5 +1,5 @@
 name: Pipeline
-on: 
+on:
   pull_request:
     branches:
       - master
@@ -14,15 +14,15 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    
+
     - name: Install Go
       uses: actions/setup-go@v1
       with:
         go-version: ${{ matrix.go-version }}
-    
+
     - name: Checkout code
       uses: actions/checkout@v2
-    
+
     - name: Setup environment variables
       run: |
         echo "::set-env name=GOPATH::$(go env GOPATH)"
@@ -33,7 +33,7 @@ jobs:
       run: |
         make setup-dev
       shell: bash
-      
+
     - name: Run precommit tests
       run: |
         export PATH=$PATH:$(go env GOPATH)/bin
