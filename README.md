@@ -22,6 +22,13 @@ to work with a monolithic codebase in the early stages of the
 project and, over time, to move gradually towards architecture
 based on microservices. See [project workflow graph](./media/workflow.png).
 
+## Installation
+
+```
+go get -u github.com/DamianSkrzypczak/shift
+```
+
+
 ## Inter-domain communication
 
 Ultimately, the framework is intended to provide tools

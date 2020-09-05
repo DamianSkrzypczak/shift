@@ -6,7 +6,6 @@ import (
 
 type App struct {
 	Server     Server
-	Logger     *logrus.Logger
 	rootDomain *Domain
 	Router     *Router
 	Name       string
@@ -36,8 +35,6 @@ func (app *App) Domain(path string, constructor func(d *Domain)) {
 }
 
 func (app *App) Run(addr string) error {
-	app.Logger.SetLevel(logrus.DebugLevel)
-	app.Logger.WithField("Address", addr).Infof("Serving shift app \"%s\"", app.Name)
 	app.Server.Initialize(addr, app.Router)
 
 	return app.Server.ListenAndServe()
