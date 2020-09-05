@@ -11,6 +11,17 @@ pluralizelisttitles = "false"
 home = [ "HTML", "RSS", "JSON"]
 
 [params]
-  author = "Damian Skrzypczak"
-  # Change default color scheme with a variant one. Can be "red", "blue", "green".
-  themeVariant = "mine"
+author = "Damian Skrzypczak"
+description = "Domain driven API framework written in Golang"
+themeVariant = "mine"
+editURL = "https://github.com/DamianSkrzypczak/shift/tree/master/docs/source/content/"
+
+[[menu.shortcuts]] 
+name = "<i class='fas fa-book'></i> API Reference"
+url = "https://pkg.go.dev/github.com/DamianSkrzypczak/shift"
+weight = 1
+
+[[menu.shortcuts]] 
+name = "<i class='fab fa-github'></i> Repository"
+url = "https://github.com/DamianSkrzypczak/shift/"
+weight = 2
