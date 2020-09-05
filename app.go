@@ -1,9 +1,5 @@
 package shift
 
-import (
-	"github.com/sirupsen/logrus"
-)
-
 type App struct {
 	Server     Server
 	rootDomain *Domain
@@ -23,7 +19,6 @@ func New(name string, config *AppConfig) *App {
 	return &App{
 		Name:       name,
 		Server:     &defaultServer{},
-		Logger:     logrus.New(),
 		rootDomain: rootDomain,
 		Router:     rootDomain.Router,
 		Config:     config,
